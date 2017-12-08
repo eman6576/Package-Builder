@@ -148,8 +148,13 @@ if [ "$(uname)" == "Darwin" ]; then
 
     # Print linter version
     echo "Running linter swiftlint version $(swiftlint version)"
-
-    swiftlint lint --quiet --config ${projectFolder}/.swiftlint.yml
+    # Check if Danger api key exists in environment for SwiftLint reporting
+    if [ -z "${DANGER_GITHUB_API_TOKEN}" ]; then 
+      # Invoke linting without reporting
+      swiftlint lint --quiet --config ${projectFolder}/.swiftlint.yml
+    else
+      # Use Danager to invoke SwiftLint and report results
+    fi
   #else
   #swiftlint lint --quiet --config ${projectFolder}/Package-Builder/.swiftlint.yml
   fi
